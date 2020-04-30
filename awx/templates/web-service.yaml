@@ -1,7 +1,15 @@
+{{- $annotations := .Values.service.annotations }}
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "awx.fullname" . }}
+  {{- if $annotations }}
+  annotations:
+    {{- range $key, $value := $annotations }}
+      {{ $key }}: {{ $value | quote }}
+    {{- end }}
+  {{- end }}
   labels:
     app.kubernetes.io/name: {{ include "awx.name" . }}
     helm.sh/chart: {{ include "awx.chart" . }}
